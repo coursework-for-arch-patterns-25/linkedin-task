@@ -1,0 +1,19 @@
+sequenceDiagram
+    participant User
+    participant YourApplication as "Your Application"
+    participant LinkedIn
+    participant PointsDatabase as "Points Database"
+
+    User->>YourApplication: 1. Tries to access "My Points"
+    YourApplication->>User: 2. Prompts to "Log in with LinkedIn"
+
+    User->>LinkedIn: 3. Clicks login and authenticates on LinkedIn
+
+    LinkedIn-->>YourApplication: 4. Confirms the user's identity securely
+
+    note right of YourApplication: The application now knows who the user is.
+
+    YourApplication->>PointsDatabase: 5. Fetches points for the identified user
+    PointsDatabase-->>YourApplication: 6. Returns the user's points data
+
+    YourApplication-->>User: 7. Displays the protected page with their points
