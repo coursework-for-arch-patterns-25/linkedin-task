@@ -87,8 +87,6 @@ public class PointsController {
                 allPointsCache = "";
 
                 existingPoints.setScore(points.getScore());
-                // Security improvement: Don't let the user change their participantId.
-                // existingPoints.setParticipantId(points.getParticipantId());
                 repository.save(existingPoints);
                 return ResponseEntity.ok("Points modified successfully!");
             }
