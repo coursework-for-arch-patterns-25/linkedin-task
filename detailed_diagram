@@ -1,0 +1,44 @@
+sequenceDiagram
+    participant UserBrowser as "User's Browser"
+    participant LinkedIn as "LinkedIn Auth Server"
+
+    box "Spring Boot Application"
+        participant SecurityFilter as "Spring Security Filter"
+        participant PointsController as "PointsController"
+        participant PointsRepository as "PointsRepository"
+    end
+
+    participant Database
+
+    UserBrowser->>SecurityFilter: 1. GET /api/points/{id} (unauthenticated)
+    SecurityFilter-->>UserBrowser: 2. HTTP 302 Redirect to LinkedIn
+    UserBrowser->>LinkedIn: 3. Authenticates & grants consent
+    LinkedIn-->>UserBrowser: 4. Redirects back with Authorization Code
+    UserBrowser->>SecurityFilter: 5. GET /login/oauth2/code/linkedin?code=...
+
+    rect rgb(240, 240, 240)
+        note over SecurityFilter, LinkedIn: Back-Channel: Code-for-Token Exchange & User Info Fetch
+        SecurityFilter->>LinkedIn: Exchanges code for token
+        LinkedIn-->>SecurityFilter: Returns access_token
+        SecurityFilter->>LinkedIn: Fetches user info
+        LinkedIn-->>SecurityFilter: Returns user profile
+        note right of SecurityFilter: Session is created. User is authenticated.
+    end
+
+    SecurityFilter-->>UserBrowser: 6. HTTP 302 Redirect to original URL
+
+    UserBrowser->>SecurityFilter: 7. GET /api/points/{id} (now with session cookie)
+
+    note right of SecurityFilter: Validates session cookie, <br/> populates SecurityContext.
+
+    SecurityFilter->>PointsController: 8. Forwards authenticated request
+
+    note right of PointsController: `@AuthenticationPrincipal` injects `OAuth2User`. <br/> Controller verifies principal.getName() matches path {id}.
+
+    PointsController->>PointsRepository: 9. findByParticipantId(id)
+    PointsRepository->>Database: 10. SELECT * FROM points WHERE participant_id = ?
+    Database-->>PointsRepository: 11. Returns Points record
+    PointsRepository-->>PointsController: 12. Returns Points object
+
+    PointsController-->>SecurityFilter: 13. Returns ResponseEntity
+    SecurityFilter-->>UserBrowser: 14. 200 OK (JSON response with points data)
