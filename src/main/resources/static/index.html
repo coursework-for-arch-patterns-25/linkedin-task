@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="utf-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <title>ConSOLIDate - LinkedIn Login</title>
+    <link rel="stylesheet" href="/webjars/bootstrap/css/bootstrap.min.css">
+    <style>
+        body {
+            background: linear-gradient(135deg, #e0eafc 0%, #cfdef3 100%);
+            font-family: 'Segoe UI', Arial, sans-serif;
+            min-height: 100vh;
+        }
+        .home-container {
+            max-width: 420px;
+            margin: 60px auto;
+            text-align: center;
+        }
+        .linkedin-login-box {
+            margin-top: 40px;
+            padding: 36px 28px;
+            border-radius: 14px;
+            box-shadow: 0 4px 32px rgba(0,119,181,0.10);
+            background: linear-gradient(120deg, #f3faff 60%, #e6f0fa 100%);
+        }
+        .linkedin-login-btn {
+            background: linear-gradient(90deg, #0077b5 60%, #005582 100%);
+            color: #fff;
+            padding: 12px 32px;
+            border-radius: 6px;
+            border: none;
+            font-size: 1.15rem;
+            font-weight: 600;
+            letter-spacing: 0.5px;
+            box-shadow: 0 2px 8px rgba(0,119,181,0.10);
+            transition: background 0.3s, box-shadow 0.3s;
+        }
+        .linkedin-login-btn:hover {
+            background: linear-gradient(90deg, #005582 60%, #0077b5 100%);
+            color: #fff;
+            box-shadow: 0 4px 16px rgba(0,119,181,0.18);
+        }
+        .profile-container {
+            max-width: 420px;
+            margin: 60px auto;
+            text-align: center;
+        }
+        .linkedin-welcome-box {
+            margin-top: 40px;
+            padding: 36px 28px;
+            border-radius: 14px;
+            background: #fff;
+            box-shadow: 0 4px 32px rgba(0,119,181,0.10);
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+        }
+        .profile-avatar {
+            width: 64px;
+            height: 64px;
+            border-radius: 50%;
+            background: #0077b5;
+            color: #fff;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 2rem;
+            font-weight: bold;
+            margin-bottom: 18px;
+            box-shadow: 0 2px 8px rgba(0,119,181,0.10);
+        }
+        .logout-btn {
+            margin-top: 18px;
+            background: #e0eafc;
+            color: #0077b5;
+            border: none;
+            border-radius: 4px;
+            padding: 8px 20px;
+            font-size: 1rem;
+            font-weight: 500;
+            transition: background 0.2s;
+        }
+        .logout-btn:hover {
+            background: #cfdef3;
+            color: #005582;
+        }
+        h1 {
+            color: #0077b5;
+            margin-bottom: 32px;
+            font-weight: 700;
+            letter-spacing: 1px;
+        }
+        .app-desc {
+            color: #555;
+            font-size: 1.1rem;
+            margin-bottom: 18px;
+        }
+        .welcome-message {
+            color: #333;
+            font-size: 1.2rem;
+            margin-bottom: 8px;
+        }
+    </style>
+</head>
+<body>
+    <div id="homeLoginBox" class="home-container">
+        <h1>ConSOLIDate</h1>
+        <div class="app-desc">Welcome! Please log in to access your profile.</div>
+        <div class="linkedin-login-box">
+            <a href="/oauth2/authorization/linkedin">
+                <button class="linkedin-login-btn">Login with LinkedIn</button>
+            </a>
+        </div>
+    </div>
+
+    <div id="profileWelcomeBox" class="profile-container" style="display: none;">
+        <h1>ConSOLIDate</h1>
+        <div class="linkedin-welcome-box">
+            <div class="welcome-message">Welcome <span id="userName"></span> in ConSOLIDate</div>
+        </div>
+    </div>
+
+    <script>i
+        document.addEventListener('DOMContentLoaded', function() {
+            fetch('/user')
+                .then(response => response.json())
+                .then(data => {
+                    if (data.name) {
+                        document.getElementById('userName').textContent = data.name;
+                        document.getElementById('homeLoginBox').style.display = 'none';
+                        document.getElementById('profileWelcomeBox').style.display = 'block';
+                    }
+                })
+                .catch(() => {
+                    document.getElementById('homeLoginBox').style.display = 'block';
+                    document.getElementById('profileWelcomeBox').style.display = 'none';
+                });
+        });
+    </script>
+</body>
+</html> 
