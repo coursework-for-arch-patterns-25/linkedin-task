@@ -1,0 +1,34 @@
+@startuml
+actor User
+participant UserBrowser as "User's Browser"
+participant LinkedIn as "LinkedIn Auth Server"
+participant ConsolidateApp as "conSOLIDate App"
+participant HomeController as "HomeController"
+
+== Homepage Access ==
+User -> UserBrowser: 1. Open http://localhost:8080
+UserBrowser -> HomeController: 2. GET /
+HomeController -> UserBrowser: 3. Render homepage with LinkedIn login button
+
+== Login Initiation ==
+User -> UserBrowser: 4. Clicks "Login with LinkedIn"
+UserBrowser -> ConsolidateApp: 5. GET /oauth2/authorization/linkedin
+ConsolidateApp -> LinkedIn: 6. Redirect to LinkedIn OAuth2 login
+
+== LinkedIn OAuth2 Flow ==
+User -> LinkedIn: 7. Authenticate & consent
+LinkedIn -> UserBrowser: 8. Redirect back with code
+UserBrowser -> ConsolidateApp: 9. GET /login/oauth2/code/linkedin?code=...
+
+group Code-for-Token Exchange & User Info Fetch
+    ConsolidateApp -> LinkedIn: 10. Exchange code for access_token
+    LinkedIn --> ConsolidateApp: 11. Returns access_token
+    ConsolidateApp -> LinkedIn: 12. Fetch user info (GET /me)
+    LinkedIn --> ConsolidateApp: 13. Returns user profile
+    note right of ConsolidateApp: Session is created. User is authenticated.
+end
+
+ConsolidateApp -> UserBrowser: 14. Redirect to /
+UserBrowser -> HomeController: 15. GET /
+HomeController -> UserBrowser: 16. Render welcome page with user name
+@enduml
