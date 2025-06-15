@@ -1,0 +1,13 @@
+@startuml
+participant User
+participant "conSOLIDate App"
+participant "LinkedIn"
+
+User -> "conSOLIDate App": 1. Opens homepage
+"conSOLIDate App" -> User: 2. Shows login with LinkedIn button
+User -> "conSOLIDate App": 3. Clicks login button
+"conSOLIDate App" -> "LinkedIn": 4. Redirects to LinkedIn login
+User -> "LinkedIn": 5. Authenticates and allows access
+"LinkedIn" --> "conSOLIDate App": 6. Redirects back with user identity
+"conSOLIDate App" -> User: 7. Displays welcome message
+@enduml
