@@ -86,7 +86,6 @@ public class SecurityConfiguration {
                             response.getWriter().write(exception.toString());
                         })
                 )
-//                .sessionManagement(session -> session.sessionCreationPolicy(STATELESS))
         ;
         return http.build();
     }
@@ -122,23 +121,5 @@ public class SecurityConfiguration {
 
 
         return requestResolver;
-    }
-
-    private static void onAuthenticationSuccess(HttpServletRequest request, HttpServletResponse response,
-                                        Authentication authentication) throws IOException {
-        OAuth2User oauth2User = (OAuth2User) authentication.getPrincipal();
-        String email = (String) oauth2User.getAttributes().get("emailAddress");
-
-        String firstName = oauth2User.getAttribute("localizedFirstName");
-        String lastName = oauth2User.getAttribute("localizedLastName");
-
-        System.out.println("Authentication successful: " + authentication.getName());
-
-
-
-        request.getSession().setAttribute("email", email);
-        request.getSession().setAttribute("name", oauth2User.getAttribute("name"));
-
-        response.sendRedirect("/");
     }
 }

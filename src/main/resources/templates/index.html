@@ -1,7 +1,20 @@
 <!DOCTYPE html>
 <html xmlns:th="http://www.thymeleaf.org">
-<head><title>Welcome</title></head>
+<head>
+    <title>Home | ConSOLiDate</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 20px;
+        }
+        .user-full-name {
+            color: #0077b5; /* LinkedIn blue */
+            font-weight: bold;
+        }
+    </style>
+</head>
 <body>
-<h1>Welcome <span th:text="${name}"></span> in ConSOLiDate.org</h1>
+    <h1>Welcome <span class="user-full-name" th:text="${name}"></span> in ConSOLiDate.org</h1>
 </body>
 </html>

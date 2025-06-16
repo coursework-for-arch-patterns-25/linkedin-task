@@ -17,6 +17,6 @@ public class WebsiteController {
             model.addAttribute("name", fullName);
             return "index";
         }
-        return "redirect:/login";
+        return "login";
     }
 }

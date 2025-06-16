@@ -9,8 +9,8 @@ spring:
       client:
         registration:
           linkedin:
-            client-id: 7747gumykr52g8
-            client-secret: WPL_AP1.vZtCgUPCtnlrnjb6.7GG86g==
+            client-id: ${LINKEDIN_CLIENT_ID}
+            client-secret: ${LINKEDIN_SECRET_ID}
             scope: openid, profile, email, w_member_social
             redirect-uri: "{baseUrl}/login/oauth2/code/{registrationId}"
             client-name: LinkedIn
