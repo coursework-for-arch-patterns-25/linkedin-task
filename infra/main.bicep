@@ -2,7 +2,7 @@
 param projectSuffix string = 'solid-linkedin'
 
 @description('Image name and version')
-param imageName string = 'pioptak/app-solid'
+param imageName string = 'acrpptak.azurecr.io/pptak/app-solid'
 
 @description('Resource group location')
 param location string = resourceGroup().location
