@@ -23,6 +23,4 @@ spring:
             authorization-uri: https://www.linkedin.com/oauth/v2/authorization
             token-uri: https://www.linkedin.com/oauth/v2/accessToken
             user-info-uri: https://api.linkedin.com/v2/userinfo
-#            user-info-uri: https://api.linkedin.com/v2/me,
-#            user-name-attribute: id
             jwk-set-uri: https://www.linkedin.com/oauth/openid/jwks
